@@ -1,0 +1,740 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-11 13:18+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: authentication/forms.py:14 authentication/forms.py:88
+#: visualizer/templates/visualizer/ended.html:33
+#: visualizer/templates/visualizer/ended_export.html:32
+msgid "Man"
+msgstr "Homes"
+
+#: authentication/forms.py:15 authentication/forms.py:89
+#: visualizer/templates/visualizer/ended.html:31
+#: visualizer/templates/visualizer/ended_export.html:30
+msgid "Woman"
+msgstr "Dona"
+
+#: authentication/forms.py:16 authentication/forms.py:90
+#: census/templates/add_census_filtros_simples.html:84
+msgid "Non-binary"
+msgstr "No binari"
+
+#: authentication/forms.py:18 authentication/forms.py:92
+msgid "Format: dd/mm/YYYY"
+msgstr "Format: dd/mm/AAAA"
+
+#: authentication/forms.py:20 authentication/forms.py:94
+#: authentication/models.py:17 census/templates/view_voters.html:21
+msgid "First name"
+msgstr "Nom"
+
+#: authentication/forms.py:21 authentication/forms.py:95
+#: authentication/models.py:18 census/templates/view_voters.html:22
+msgid "Last name"
+msgstr "Cognom"
+
+#: authentication/forms.py:22 authentication/forms.py:96
+#: authentication/models.py:16 authentication/serializers.py:16
+#: authentication/templates/authentication/login.html:37
+msgid "Email"
+msgstr "Correu electrònic"
+
+#: authentication/forms.py:23 authentication/forms.py:97
+#: authentication/models.py:19
+msgid "Birthdate"
+msgstr "Data de naixement"
+
+#: authentication/forms.py:24 authentication/forms.py:98
+#: authentication/models.py:20
+#: census/templates/add_census_filtros_simples.html:49
+#: census/templates/add_custom_census.html:37
+#: census/templates/view_voters.html:24
+msgid "City"
+msgstr "Ciutat"
+
+#: authentication/forms.py:25 authentication/forms.py:99
+#: authentication/models.py:21 census/templates/add_custom_census.html:34
+#: census/templates/view_voters.html:23
+msgid "Sex"
+msgstr "Sexe"
+
+#: authentication/forms.py:56 authentication/forms.py:129
+msgid "Email alredy exits"
+msgstr "Correu electrònic de sortida"
+
+#: authentication/forms.py:66 authentication/forms.py:139
+msgid "Future date not posible"
+msgstr "La data futura no és possible"
+
+#: authentication/models.py:22
+msgid "Is active"
+msgstr "Està actiu"
+
+#: authentication/models.py:23
+msgid "Is staf"
+msgstr "És staf"
+
+#: authentication/schemas/inspectors.py:114
+msgid "unique integer value"
+msgstr "unique integer value"
+
+#: authentication/schemas/inspectors.py:116
+msgid "UUID string"
+msgstr "UUID string"
+
+#: authentication/schemas/inspectors.py:118
+msgid "unique value"
+msgstr "unique value"
+
+#: authentication/schemas/inspectors.py:120
+#, python-brace-format
+msgid "A {value_type} identifying this {name}."
+msgstr "A {value_type} identifying this {name}."
+
+#: authentication/serializers.py:18
+#: authentication/templates/authentication/login.html:45
+msgid "Password"
+msgstr "Contrasenya"
+
+#: authentication/serializers.py:32
+msgid "Unable to log in with provided credentials."
+msgstr "No es pot iniciar sessió amb les credencials proporcionades."
+
+#: authentication/serializers.py:35
+msgid "Must include \"email\" and \"password\"."
+msgstr "Ha d'incloure \"correu electrònic\" i \"contrasenya\"."
+
+#: authentication/templates/authentication/acc_active_email.html:3
+#: authentication/templates/authentication/confirm_email.html:4
+msgid "New user"
+msgstr "Nou usuari"
+
+#: authentication/templates/authentication/acc_active_email.html:9
+msgid "Thank you for your email confirmation. Now you can login your account."
+msgstr ""
+"Gràcies per la vostra confirmació per correu electrònic. Ara podeu iniciar "
+"la sessió al vostre compte."
+
+#: authentication/templates/authentication/acc_active_email.html:11
+msgid "Go to login"
+msgstr "Iniciar Sessió"
+
+#: authentication/templates/authentication/confirm_email.html:7
+msgid "Please confirm your email address to complete the registration"
+msgstr ""
+"Confirmeu la vostra adreça de correu electrònic per completar el registre"
+
+#: authentication/templates/authentication/login.html:25
+#: base/templates/base.html:105
+msgid "Log in"
+msgstr "Iniciar Sessió"
+
+#: authentication/templates/authentication/login.html:50
+msgid "Login"
+msgstr "Iniciar Sessió"
+
+#: authentication/templates/authentication/login.html:93
+msgid "Enter an email and a password."
+msgstr "Introduïu un correu electrònic i una contrasenya."
+
+#: authentication/templates/authentication/login.html:105
+msgid "Error: The credentials are not valid"
+msgstr "Error: les credencials no són vàlides"
+
+#: authentication/templates/authentication/login.html:108
+#: booth/templates/booth/booth.html:312
+msgid "Error: "
+msgstr "Error: "
+
+#: authentication/templates/authentication/signup.html:13
+msgid "Sign up a new user"
+msgstr "Registra't un nou usuari"
+
+#: authentication/templates/authentication/signup.html:21
+msgid "Submit"
+msgstr "Presentar"
+
+#: base/templates/base.html:106
+msgid "Sign up"
+msgstr "Registra't"
+
+#: base/templates/base.html:133 voting/templates/voting/openVotings.html:9
+msgid "Open votings"
+msgstr "Votacions obertes"
+
+#: base/templates/base.html:134
+#: census/templates/add_census_filtros_simples.html:12
+#: census/templates/add_custom_census.html:13
+#: census/templates/census_history.html:13
+#: census/templates/delete_census.html:13 census/templates/edit_census.html:13
+#: census/templates/import_view.html:13 census/templates/main_index.html:15
+#: census/templates/view_voters.html:10
+msgid "Census"
+msgstr "Cens"
+
+#: base/templates/base.html:135
+msgid "Closed Votings"
+msgstr "Votacions Tancades"
+
+#: base/templates/index.html:19
+msgid "Welcome"
+msgstr "Benvinguda"
+
+#: booth/templates/booth/booth.html:21
+msgid "The voting can not be accessed because it has not started."
+msgstr "La votació no es pot accedir perquè no s'ha iniciat."
+
+#: booth/templates/booth/booth.html:23
+msgid ""
+"The voting can not be accessed because it has ended. You can access to the "
+"results in the following link: "
+msgstr ""
+"La votació no es pot accedir perquè s'ha acabat. Podeu accedir als resultats "
+"al següent enllaç:"
+
+#: booth/templates/booth/booth.html:23
+msgid "Results"
+msgstr "Resultats"
+
+#: booth/templates/booth/booth.html:25
+msgid ""
+"This voting does not contain any questions, so it can not be accessed yet. "
+"Try it again later."
+msgstr ""
+"Aquesta votació no conté cap pregunta, de manera que encara no es pot "
+"accedir a ella. Proveuuna altra vegada més tard."
+
+#: booth/templates/booth/booth.html:66
+msgid "Answer with voice"
+msgstr "Respondre amb veu"
+
+#: booth/templates/booth/booth.html:75
+msgid "Send vote"
+msgstr "Enviar vot"
+
+#: booth/templates/booth/booth.html:85
+msgid "Speech Synthesis not supported"
+msgstr "La síntesi de veu no és compatible"
+
+#: booth/templates/booth/booth.html:86
+msgid "Your browser does not support speech synthesis."
+msgstr "El vostre navegador no admet la síntesi de veu."
+
+#: booth/templates/booth/booth.html:87
+msgid "We recommend you use Google Chrome."
+msgstr "Us recomanem que feu servir Google Chrome."
+
+#: booth/templates/booth/booth.html:309
+msgid "Congratulations. Your vote has been sent"
+msgstr "Felicitacions. S'ha enviat el vostre vot"
+
+#: booth/templates/booth/booth.html:317
+msgid "You must select an option for each question."
+msgstr "Heu de seleccionar una opció per a cada pregunta."
+
+#: census/templates/add_census_filtros_simples.html:11
+#: census/templates/add_custom_census.html:12
+#: census/templates/census_history.html:12
+#: census/templates/delete_census.html:12 census/templates/edit_census.html:12
+#: census/templates/import_view.html:12 census/templates/main_index.html:14
+#: census/templates/view_voters.html:9
+msgid "Home"
+msgstr "Inici"
+
+#: census/templates/add_census_filtros_simples.html:13
+#: census/templates/add_census_filtros_simples.html:53
+#: census/templates/add_census_filtros_simples.html:87
+#: census/templates/add_census_filtros_simples.html:121
+#: census/templates/add_census_filtros_simples.html:152
+#: census/templates/add_custom_census.html:49
+msgid "Create census"
+msgstr "Crear cens"
+
+#: census/templates/add_census_filtros_simples.html:32
+msgid "Choose one of the filters below to create the census."
+msgstr "Trieu un dels filtres a continuació per crear el cens."
+
+#: census/templates/add_census_filtros_simples.html:36
+msgid "Create census with users from this city"
+msgstr "Creeu un cens amb usuaris d'aquesta ciutat"
+
+#: census/templates/add_census_filtros_simples.html:39
+#: census/templates/add_census_filtros_simples.html:70
+#: census/templates/add_census_filtros_simples.html:104
+#: census/templates/add_census_filtros_simples.html:140
+msgid "Choose a voting"
+msgstr "Tria una votació"
+
+#: census/templates/add_census_filtros_simples.html:50
+msgid "Ex: Sevilla"
+msgstr "Ex: Sevilla"
+
+#: census/templates/add_census_filtros_simples.html:68
+msgid "Create census with users of this sex"
+msgstr "Creeu un cens amb els usuaris d'aquest sexe"
+
+#: census/templates/add_census_filtros_simples.html:80
+msgid "Choose a sex"
+msgstr "Tria un sexe"
+
+#: census/templates/add_census_filtros_simples.html:82
+msgid "Male"
+msgstr "Home"
+
+#: census/templates/add_census_filtros_simples.html:83
+msgid "Female"
+msgstr "Dona"
+
+#: census/templates/add_census_filtros_simples.html:102
+msgid "Create census with users in this age range"
+msgstr "Creeu un cens amb usuaris d'aquest rang d'edat"
+
+#: census/templates/add_census_filtros_simples.html:114
+msgid "From this age"
+msgstr "A partir d'aquesta edat"
+
+#: census/templates/add_census_filtros_simples.html:117
+msgid "To this age"
+msgstr "A aquesta edat"
+
+#: census/templates/add_census_filtros_simples.html:138
+msgid "Create census with all existing users"
+msgstr "Creeu un cens amb tots els usuaris existents"
+
+#: census/templates/add_census_filtros_simples.html:146
+#: census/templates/main_index.html:50
+msgid "Voting"
+msgstr "Votació"
+
+#: census/templates/add_census_filtros_simples.html:162
+#: census/templates/census_history.html:47 census/templates/edit_census.html:44
+#: census/templates/import_view.html:64 census/templates/view_voters.html:45
+msgid "Back"
+msgstr "Enrere"
+
+#: census/templates/add_custom_census.html:4
+msgid "Creation of censuses using filters"
+msgstr "Creació de censos mitjançant filtres"
+
+#: census/templates/add_custom_census.html:14
+msgid "Create custom census"
+msgstr "Crea un cens personalitzat"
+
+#: census/templates/add_custom_census.html:21
+msgid "Adding voters on a vote"
+msgstr "Afegint votants en una votació"
+
+#: census/templates/add_custom_census.html:28
+msgid "Select voting"
+msgstr "Selecciona la votació"
+
+#: census/templates/add_custom_census.html:31
+msgid "Filtering"
+msgstr "Filtratge"
+
+#: census/templates/add_custom_census.html:41
+msgid "Initial age"
+msgstr "Edat inicial"
+
+#: census/templates/add_custom_census.html:44
+msgid "Final age"
+msgstr "Edat final"
+
+#: census/templates/census_history.html:14
+msgid "Census history"
+msgstr "Historial del cens"
+
+#: census/templates/census_history.html:21
+msgid "History"
+msgstr "Història"
+
+#: census/templates/census_history.html:27
+msgid "Date/time"
+msgstr "Data i hora"
+
+#: census/templates/census_history.html:28
+msgid "User"
+msgstr "Usuari"
+
+#: census/templates/census_history.html:29
+msgid "Action"
+msgstr "Acció"
+
+#: census/templates/census_history.html:43
+msgid ""
+"This object doesn't have a change history. It probably wasn't added via this "
+"admin site."
+msgstr ""
+"Aquest objecte no té un historial de canvis. Probablement no s'hagi afegit a "
+"través d'aquest lloc d'administració."
+
+#: census/templates/delete_census.html:14 census/templates/main_index.html:78
+msgid "Delete census"
+msgstr "Suprimeix el cens"
+
+#: census/templates/delete_census.html:23
+msgid ""
+"Are you sure you want to delete this census? All of the following related "
+"items will be deleted"
+msgstr ""
+"Esteu segur que voleu suprimir aquest cens? S'eliminaran tots els següents "
+"elements relacionats"
+
+#: census/templates/delete_census.html:31
+msgid "ID"
+msgstr "ID"
+
+#: census/templates/delete_census.html:32
+msgid "Voting ID"
+msgstr "ID de vot"
+
+#: census/templates/delete_census.html:51
+msgid "Be careful: this action cannot be undone!"
+msgstr "Aneu amb compte: aquesta acció no es pot desfer."
+
+#: census/templates/delete_census.html:54
+msgid "Yes, I'm sure"
+msgstr "Sí, n'estic segur"
+
+#: census/templates/delete_census.html:58
+msgid "No, take me back"
+msgstr "No, prengui'm de tornada"
+
+#: census/templates/edit_census.html:14 census/templates/edit_census.html:41
+#: census/templates/main_index.html:77
+msgid "Edit census"
+msgstr "Edita el cens"
+
+#: census/templates/edit_census.html:21
+msgid "Select the voting to assign to this census"
+msgstr "Seleccioneu la votació per assignar a aquest cens"
+
+#: census/templates/edit_census.html:31
+msgid "Select the user to assign to this census"
+msgstr "Seleccioneu l'usuari que voleu assignar a aquest cens"
+
+#: census/templates/import_view.html:14
+msgid "Import census"
+msgstr "Import cens"
+
+#: census/templates/import_view.html:43
+msgid "Import CSV"
+msgstr "Import CSV"
+
+#: census/templates/import_view.html:44
+msgid "Choose the CSV file with the censuses to be imported into the system."
+msgstr "Trieu el fitxer CSV amb els censos que cal importar al sistema."
+
+#: census/templates/import_view.html:50
+msgid "File"
+msgstr "Fitxer"
+
+#: census/templates/import_view.html:59
+msgid "Only CSV files"
+msgstr "Només fitxers CSV"
+
+#: census/templates/import_view.html:60
+msgid "Upload CSV"
+msgstr "Penja CSV"
+
+#: census/templates/main_index.html:34
+msgid "Add census with filters"
+msgstr "Afegiu un cens amb filtres"
+
+#: census/templates/main_index.html:35
+msgid "Add custom census"
+msgstr "Afegiu un cens personalitzat"
+
+#: census/templates/main_index.html:38
+msgid "Export all"
+msgstr "Exporta-ho tot"
+
+#: census/templates/main_index.html:39
+msgid "Import all"
+msgstr "Importa'ls tots"
+
+#: census/templates/main_index.html:51
+msgid "Voters"
+msgstr "Votants"
+
+#: census/templates/main_index.html:52
+msgid "Edit"
+msgstr "Edita"
+
+#: census/templates/main_index.html:53
+msgid "Delete"
+msgstr "Suprimeix"
+
+#: census/templates/main_index.html:89
+msgid "No census to show"
+msgstr "Sense cens per mostrar"
+
+#: census/templates/view_voters.html:11 census/templates/view_voters.html:16
+msgid "View Voters"
+msgstr "Veure votants"
+
+#: census/templates/view_voters.html:25
+msgid "Date of birth"
+msgstr "Data de naixement"
+
+#: decide/settings.py:149
+msgid "English"
+msgstr "English"
+
+#: decide/settings.py:150
+msgid "Español"
+msgstr "Español"
+
+#: decide/settings.py:151
+msgid "Català"
+msgstr "Català"
+
+#: visualizer/templates/visualizer/ended.html:14
+#: visualizer/templates/visualizer/ended_export.html:7
+msgid "Results: "
+msgstr "Resultats"
+
+#: visualizer/templates/visualizer/ended.html:31
+#: visualizer/templates/visualizer/ended.html:33
+#: visualizer/templates/visualizer/ended.html:36
+#: visualizer/templates/visualizer/ended.html:38
+#: visualizer/templates/visualizer/ended.html:66
+#: visualizer/templates/visualizer/ended_export.html:16
+#: visualizer/templates/visualizer/ended_export.html:30
+#: visualizer/templates/visualizer/ended_export.html:32
+#: visualizer/templates/visualizer/ended_export.html:46
+#: visualizer/templates/visualizer/ended_export.html:59
+msgid "Number of votes:"
+msgstr "Nombre de vots:"
+
+#: visualizer/templates/visualizer/ended.html:36
+#: visualizer/templates/visualizer/ended_export.html:46
+msgid "Team"
+msgstr "Equip"
+
+#: visualizer/templates/visualizer/ended.html:169
+msgid "Question:"
+msgstr "Qüestió:"
+
+#: visualizer/templates/visualizer/ended.html:358
+#: visualizer/templates/visualizer/ongoing.html:93
+msgid "Download results as"
+msgstr "Descarregar resultats com"
+
+#: visualizer/templates/visualizer/ended_export.html:16
+msgid "Total:"
+msgstr ""
+
+#: visualizer/templates/visualizer/list_ended.html:16
+msgid "Ended votings"
+msgstr "Votacions finalitzades"
+
+#: visualizer/templates/visualizer/list_ended.html:21
+#: voting/templates/voting/openVotings.html:16
+msgid "Name"
+msgstr "Nom"
+
+#: visualizer/templates/visualizer/list_ended.html:22
+#: voting/templates/voting/openVotings.html:17
+msgid "Description"
+msgstr "Descripció"
+
+#: visualizer/templates/visualizer/list_ended.html:23
+msgid "Question(s)"
+msgstr "Preguntes"
+
+#: visualizer/templates/visualizer/list_ended.html:24
+msgid "Start/end"
+msgstr "Inici/final"
+
+#: visualizer/templates/visualizer/list_ended.html:25
+msgid "Link"
+msgstr "Enllaç"
+
+#: visualizer/templates/visualizer/list_ended.html:52
+msgid "Started:"
+msgstr "Iniciat:"
+
+#: visualizer/templates/visualizer/list_ended.html:53
+msgid "Ended:"
+msgstr "Finalitzada:"
+
+#: visualizer/templates/visualizer/list_ended.html:57
+msgid "Go"
+msgstr "Anar"
+
+#: visualizer/templates/visualizer/list_ended.html:72
+msgid "There are no ended votings yet"
+msgstr "Encara no hi ha cap votació finalitzada"
+
+#: visualizer/templates/visualizer/not_started.html:13
+msgid "Voting not started"
+msgstr "No s'ha iniciat la votació"
+
+#: visualizer/templates/visualizer/not_tally.html:12
+msgid "Votes have not been counted yet. Please try again later"
+msgstr "Encara no s'han comptabilitzat els vots. Siusplau, intenta-ho més tard"
+
+#: visualizer/templates/visualizer/ongoing.html:12
+msgid "In Progress"
+msgstr "En progrés"
+
+#: visualizer/templates/visualizer/ongoing.html:19
+#: visualizer/templates/visualizer/ongoing_export.html:6
+#: voting/templates/voting/openVotings.html:19
+msgid "Stats"
+msgstr "Estadístiques"
+
+#: visualizer/templates/visualizer/ongoing.html:23
+#: visualizer/templates/visualizer/ongoing_export.html:8
+msgid "Census Size:"
+msgstr "Mida del cens:"
+
+#: visualizer/templates/visualizer/ongoing.html:24
+#: visualizer/templates/visualizer/ongoing_export.html:9
+msgid "Voters Turnout:"
+msgstr "Reconeixement de votants:"
+
+#: visualizer/templates/visualizer/ongoing.html:25
+#: visualizer/templates/visualizer/ongoing_export.html:10
+msgid "Participation:"
+msgstr "Participació"
+
+#: visualizer/templates/visualizer/ongoing.html:40
+msgid "Interested in the participation according to genders? Check it out!"
+msgstr "Està interessat en la participació segons els sexes? Comprova-ho!"
+
+#: visualizer/templates/visualizer/ongoing.html:44
+msgid "Women"
+msgstr "Dones"
+
+#: visualizer/templates/visualizer/ongoing.html:45
+msgid "Non-Binary"
+msgstr "No binari"
+
+#: visualizer/templates/visualizer/ongoing.html:46
+msgid "Men"
+msgstr "Homes"
+
+#: visualizer/templates/visualizer/ongoing.html:49
+msgid "women voted"
+msgstr "les dones van votar"
+
+#: visualizer/templates/visualizer/ongoing.html:49
+#: visualizer/templates/visualizer/ongoing.html:50
+#: visualizer/templates/visualizer/ongoing.html:51
+msgid "of the total"
+msgstr "del total"
+
+#: visualizer/templates/visualizer/ongoing.html:50
+msgid "non-binary voted"
+msgstr "votació no binària"
+
+#: visualizer/templates/visualizer/ongoing.html:51
+msgid "men voted"
+msgstr "els homes van votar"
+
+#: visualizer/templates/visualizer/ongoing.html:59
+msgid "to"
+msgstr "a"
+
+#: visualizer/templates/visualizer/ongoing.html:59
+#: visualizer/templates/visualizer/ongoing.html:72
+#: visualizer/templates/visualizer/ongoing.html:85
+msgid "years old"
+msgstr "anys"
+
+#: visualizer/templates/visualizer/ongoing.html:68
+msgid "The average age of people who voted is..."
+msgstr "L'edat mitjana de les persones que van votar és ..."
+
+#: visualizer/templates/visualizer/ongoing.html:74
+msgid "Nobody has voted yet :("
+msgstr "Ningú ha votat encara :("
+
+#: visualizer/templates/visualizer/ongoing.html:81
+msgid "The average age of people who didn't vote is..."
+msgstr "L'edat mitjana de les persones que no van votar és..."
+
+#: visualizer/templates/visualizer/ongoing.html:87
+msgid "Everyone has voted already :)"
+msgstr "Tothom ha votat ja :)"
+
+#: visualizer/templates/visualizer/ongoing_export.html:5
+msgid "Voting is open"
+msgstr "La votació està oberta"
+
+#: visualizer/templates/visualizer/ongoing_export.html:12
+msgid "Voter's Mean Age:"
+msgstr "Edat Mitjana de l'elector:"
+
+#: visualizer/templates/visualizer/ongoing_export.html:15
+msgid "Non-Voter's Mean Age:"
+msgstr "Edat mitjana no votant:"
+
+#: visualizer/templates/visualizer/ongoing_export.html:17
+msgid "Voter's Age Analysis:"
+msgstr "Anàlisi de l'edat dels votants:"
+
+#: visualizer/templates/visualizer/ongoing_export.html:24
+msgid "Women participation:"
+msgstr "Participació de les dones:"
+
+#: visualizer/templates/visualizer/ongoing_export.html:25
+msgid "Non-binary participation:"
+msgstr "Participació no binària:"
+
+#: visualizer/templates/visualizer/ongoing_export.html:26
+msgid "Men participation:"
+msgstr "Participació dels homes:"
+
+#: voting/templates/voting/openVotings.html:18
+msgid "Booth"
+msgstr "Cabina"
+
+#: voting/templates/voting/openVotings.html:30
+msgid "Not provided."
+msgstr "No proporcionat."
+
+#: voting/templates/voting/openVotings.html:33
+msgid "Access to the booth"
+msgstr "Accedir a la cabina"
+
+#: voting/templates/voting/openVotings.html:34
+msgid "See the stats"
+msgstr "Veure les estadístiques"
+
+#: voting/templates/voting/openVotings.html:42
+msgid "There are no open votings in the system."
+msgstr "No hi ha votacions obertes al sistema."
+
+#~ msgid "Admin panel"
+#~ msgstr "Tauler d'administració"
+
+#~ msgid "Footer Content"
+#~ msgstr "Contingut del peu de pàgina"
+
+#~ msgid "Information."
+#~ msgstr "Informació"
+
+#~ msgid "© 2018 Copyright Text"
+#~ msgstr "© 2018 Copyright Text"
+
+#~ msgid "More Links"
+#~ msgstr "Més enllaços"

@@ -1,0 +1,28 @@
+{% load i18n static %}
+{% block content %}
+    <h1>{{ voting.id }} - {{ voting.name }}</h1>
+
+    <h2>{% trans 'Voting is open' %}</h2>
+    <h2>{% trans 'Stats' %}</h2>
+
+    <h3>{% trans 'Census Size:' %}  {{stats_census_size}}</h3>
+    <h3>{% trans 'Voters Turnout:' %}  {{stats_voters_turnout}}</h3>
+    <h3>{% trans 'Participation:' %}  {{stats_participation_ratio}}%</h3>
+    {% if stats_voters_age_mean %}
+    <h3>{% trans "Voter's Mean Age:" %} {{stats_voters_age_mean}} y.o.</h3>
+    {% endif %}
+    {% if stats_no_voters_age_mean %}
+    <h3>{% trans "Non-Voter's Mean Age:" %} {{stats_no_voters_age_mean}} y.o.</h3>
+    {% endif %}
+    <h4>{% trans "Voter's Age Analysis:" %} </h4>
+    <ul>
+        {% for rango, cantidad in stats_voters_age_dist.items %}
+            <li>{{ rango }} y.o. - {{ cantidad }}%</li>
+        {% endfor %}
+    </ul>
+
+    <h3>{% trans 'Women participation:' %}  {{stats_women_participation}} - {{stats_women_percentage}}%</h3>
+    <h3>{% trans 'Non-binary participation:' %}  {{stats_nonbinary_participation}} - {{stats_nonbinary_percentage}}%</h3>
+    <h3>{% trans 'Men participation:' %}  {{stats_men_participation}} - {{stats_men_percentage}}%</h3>
+
+{% endblock %}

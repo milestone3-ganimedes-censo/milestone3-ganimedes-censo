@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet" href="{% static "decide/css/visualizer/ended.css"%}"/>
+{% endblock %}
+{% block content %}
+    {% load static %}
+    {% load visualizertags %}
+    <script type="text/javascript" src="{% static "decide/js/Chart.js"%}"></script>
+
+    <div id="resultados-votacion">
+        <h4>{{ voting.name }}</h4>
+        <h5>{{ voting.desc }}</h5>
+        <p>{% trans "Results: " %}</p>
+    </div>
+ 
+    <div class="row">
+        <!-- Nuevo mostrado de resultados en funcion de más de una pregunta -->
+        {% if voting.postproc.type != 1 and voting.postproc.type != 2 %}
+            <!-- Para el resto de votaciones -->
+            <ul>
+                {% for question in voting.questions %}
+                    <div class="col m6 s12">
+                        <div class="card teal">
+                            <div class="card-content" id="results">   
+                                <p class="card-title white-text" id="question-title">{{question.number}} - {{question.desc}}</p><br/>
+                                {% with voting.postproc.questions|get_value:question.number as values %}
+                                    {% for value in values.options %}
+                                        {% if voting.postproc.type == 3 %}
+                                            {% if value.gender == False %}
+                                                <li><p class="white-text">({% trans "Woman" %}) {{ value.option }} - {% trans "Number of votes:" %} ({{ value.votes }})</p></li>
+                                            {% else %}
+                                                <li><p class="white-text">({% trans "Man" %}) {{ value.option }} - {% trans "Number of votes:" %} ({{ value.votes }})</p></li>
+                                            {% endif %}
+                                        {% elif voting.postproc.type == 4 %}
+                                            <li><p class="white-text">{% trans "Team" %} {{value.team}}: {{ value.option }} - {% trans "Number of votes:" %} ({{ value.votes }})</p></li>
+                                        {% elif voting.postproc.type == 0 %}
+                                            <li><p class="white-text">{{ value.option }} - {% trans "Number of votes:" %} ({{ value.postproc }})</p></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 50%" class="col m6 s12">
+                        <div class="card grey lighten-4">
+                            <canvas id="resultados{{question.number}}" width="100%" height="50%"></canvas>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <hr class="blue-grey darken-1"/>
+                {% endfor %}
+            </ul>
+            
+        {% else %}
+            <!-- Votación para Weights y Seats-->
+            <ul>
+                {% for question in voting.questions %}
+                    <div class="col m6 s12">
+                        <div class="card teal">
+                            <div class="card-content" id="results">    
+                                <p class="card-title white-text" id="question-title">{{question.number}} - {{question.desc}}</p>
+                                    {% with voting.postproc.questions|get_value:question.number as values %}
+                                        {% for value in values.options %}
+                                            <li><p class="white-text">{{value.option}} - Total: ({{value.postproc}}) - {% trans "Number of votes:" %} ({{value.votes}})</p></li>
+                                        {% endfor %}
+                                    {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 50%" class="col m6 s12">
+                        <div class="card grey lighten-4">
+                            <canvas id="resultados{{question.number}}" width="100%" height="50%"></canvas>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <hr class="blue-grey darken-1"/>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+
+    {% with voting.postproc.questions.0.options.0 as firstVote %}
+
+    {% if voting.postproc.type == 4 %}
+
+    
+    <!--Pintado de gráfica para Teams-->
+    {% for q in voting.questions %}
+        {% with voting.postproc.questions|get_value:q.number as values %}
+            {% regroup values.options by team as teams %}
+            <script>
+
+                function getRandomColor() {
+                    var r = Math.floor(Math.random() * 255);
+                    var g = Math.floor(Math.random() * 255);
+                    var b = Math.floor(Math.random() * 255);
+                    return "rgb(" + r + "," + g + "," + b + ", 0.5)";
+                }
+               
+                
+                var ctx = document.getElementById("resultados{{q.number}}").getContext("2d");
+                var myChart = new Chart(ctx, {
+                    type:"bar",
+                    data: {
+                        labels:[{% for t in teams %}{% if forloop.first %}"Equipo {{t.grouper}}"{% else %},"Equipo {{t.grouper}}"{% endif %}{% endfor %}],
+                        datasets: [{% for t in teams %}{% for option in t.list %}{label: "{{ option.option }}",backgroundColor: getRandomColor(),data:[{% for team in teams %}{% if team.grouper == option.team %}{{option.votes}},{% else %}0,{% endif %}{% endfor %}]},{% endfor %}{% endfor %}]
+                    },
+            
+                    options:{
+                        scales:{
+                            yAxes:[{
+                                stacked:true
+                            }],
+                            xAxes:[{
+                                stacked:true
+                            }]
+                        }
+                    }
+                });
+                </script>
+        {% endwith %}
+    {% endfor %}
+        
+    <!-- Gráfica para parity -->
+    {% elif voting.postproc.type == 3 %}
+        {% for question in voting.postproc.questions %}
+            <script>
+                var ctx = document.getElementById("resultados{{question.number}}").getContext('2d');
+                
+                function getRandomColor() {
+                    var r = Math.floor(Math.random() * 255);
+                    var g = Math.floor(Math.random() * 255);
+                    var b = Math.floor(Math.random() * 255);
+                    return "rgb(" + r + "," + g + "," + b + ", 0.5)";
+                }
+
+                var colors = [];
+                colors.push(getRandomColor());
+                colors.push(getRandomColor())
+  
+
+                var gridlines = {
+                                    display:false,
+                                    drawOnChartArea:false,
+                                    drawTicks:false,
+                                };
+
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for option in question.options %}{% if forloop.first %}"{{option.option}}{% if option.gender == False %}(Female){% else %}(Male){% endif %}"{% else %},"{{option.option}}{% if option.gender == False %}(Female){% else %}(Male){% endif %}"{% endif %}{% endfor %}],
+                        datasets: [{% for option in question.options %}{label: "{{ option.option }}",backgroundColor: {% if option.gender == True %}colors[0]{% else %}colors[1]{% endif %},data:[{% for option1 in question.options %}{% if option1 == option %}{{option.votes}},{% else %}0,{% endif %}{% endfor %}]},{% endfor %}]
+                    },
+                    options: {
+                        scales: {
+                            yAxes:[{
+                                stacked:true
+                            }],
+                            xAxes:[{
+                                stacked:true
+                            }]
+                        },
+                        title: {
+                            display: true,
+                            text: '{{voting.name}} - {% trans 'Question:' %} {{question.number}}',
+                        }
+                    }
+                });
+            </script>
+        {% endfor %}
+    {% elif voting.postproc.type == 0 %}
+
+    <!--Pintado de gráfica para Identity-->
+    {% for q in voting.questions %}
+        {% with voting.postproc.questions|get_value:q.number as values %}
+            <script>
+                var ctx = document.getElementById("resultados{{q.number}}");
+        
+        
+                function getRandomColor() {
+                    var r = Math.floor(Math.random() * 255);
+                    var g = Math.floor(Math.random() * 255);
+                    var b = Math.floor(Math.random() * 255);
+                    return "rgb(" + r + "," + g + "," + b + ", 0.5)";
+                }
+                var color = getRandomColor();
+        
+                
+        
+                var gridlines = {
+                                    display:false,
+                                    drawOnChartArea:false,
+                                    drawTicks:false,
+                                };
+
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for option in values.options %}{% if forloop.first %}"{{option.option}}"{% else %},"{{option.option}}"{% endif %}{% endfor %}],
+                        datasets: [{
+                            label: 'Número de votos',
+                            data: [{% for option in values.options %}{% if forloop.first %}{{option.votes}}{% else %},{{option.votes}}{% endif %}{% endfor %}],
+                            backgroundColor: color,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                gridLines:gridlines,
+                                ticks: {
+                                    beginAtZero:true,
+                                }
+                            }],
+                                xAxes: [{
+                                    gridLines:gridlines,
+                                    ticks: {
+                                        autoSkip:false
+                                    }
+                                }]
+                        },
+                        title: {
+                            display: true,
+                            text: '{{voting.name}}'
+                        }
+                    }
+                });
+                
+            </script>
+
+        {% endwith %}
+    {% endfor %}
+
+    {% elif voting.postproc.type == 1 %}
+
+        <!--Pintado de gráfica para Weight-->
+
+        {% for q in voting.questions %}
+            {% with voting.postproc.questions|get_value:q.number as values %}
+                <script>
+                    var ctx = document.getElementById("resultados{{q.number}}");
+        
+        
+                    function getRandomColor() {
+                        var r = Math.floor(Math.random() * 255);
+                        var g = Math.floor(Math.random() * 255);
+                        var b = Math.floor(Math.random() * 255);
+                        return "rgb(" + r + "," + g + "," + b + ", 0.5)";
+                    }
+                    
+                    var colors = [];
+        
+                    colors.push(getRandomColor());
+                    colors.push(getRandomColor());
+        
+                
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: [{% for option in values.options %}{% if forloop.first %}"{{option.option}}"{% else %},"{{option.option}}"{% endif %}{% endfor %}],
+                        datasets: [{
+                            label: 'Total',
+                            data: [{% for option in values.options %}{% if forloop.first %}{{option.postproc}}{% else %},{{option.postproc}}{% endif %}{% endfor %}],
+                            backgroundColor: colors[0],
+                            borderWidth: 1
+                        }, {
+                            label: 'Número de votos',
+                            data: [{% for option in values.options %}{% if forloop.first %}{{option.votes}}{% else %},{{option.votes}}{% endif %}{% endfor %}],
+                            backgroundColor: colors[1],
+                            borderWidth: 1
+                        }]},
+                    
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero:true
+                                    }
+                                }],
+                                xAxes: [{
+                                    ticks: {
+                                        autoSkip:false
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                
+                </script>
+
+            {% endwith %}
+        {% endfor %}
+
+    {% else %}
+    
+    <!--Pintado de grafica para escaños-->
+    {% for q in voting.questions %}
+        {% with voting.postproc.questions|get_value:q.number as values %}
+        
+        <script>
+
+            function getRandomColor() {
+                var r = Math.floor(Math.random() * 255);
+                var g = Math.floor(Math.random() * 255);
+                var b = Math.floor(Math.random() * 255);
+                return "rgb(" + r + "," + g + "," + b + ", 0.5)";
+            }
+        
+            var colors = [];
+            {% for option in values.options %}
+               colors.push(getRandomColor());
+            {% endfor %}
+        
+            var gridlines = {
+                                    display:false,
+                                    drawOnChartArea:false,
+                                    drawTicks:false,
+                                };
+
+            var ctx = document.getElementById("resultados{{q.number}}");
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data:  {
+                labels: [{% for option in values.options %}{% if forloop.first %}"{{option.option}}"{% else %},"{{option.option}}"{% endif %}{% endfor %}],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [{% for option in values.options %}{% if forloop.first %}{{option.postproc}}{% else %},{{option.postproc}}{% endif %}{% endfor %}],
+                    backgroundColor: colors,
+                    borderWidth: 1
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    circumference: Math.PI,
+                    animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        },
+                    rotation: -Math.PI,
+                    gridLines:gridlines,
+                    title: {
+                        display: true,
+                        text: '{{voting.name}}'
+                    }
+                }
+            });
+            </script>
+        {% endwith %}
+    {% endfor %}
+
+    {% endif %}
+    <div class="centered-text">
+        <p>{% trans "Download results as" %} <a href="pdf/" target="_blank">.pdf</a> 
+        <a href="csv/" target="_blank">.csv</a> 
+        <a href="json/" target="_blank">.json</a> 
+        <a href="xml/" target="_blank">.xml</a>
+        </p>
+    </div>
+    {% endwith %}
+
+{% endblock %}
+

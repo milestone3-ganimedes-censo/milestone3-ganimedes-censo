@@ -1,0 +1,28 @@
+#cabecera-votacion{
+    text-align: center;
+}
+
+#cabecera-votacion p{
+    margin-top: 0%;
+}
+
+#cabecera-votacion h4{
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+#estadisticas-votacion p{
+    text-align: center;
+}
+
+#info-texto-left p{
+    text-align: right;
+}
+
+.centered-text{
+    text-align: center
+}
+.white-text{
+    color:white
+}
+

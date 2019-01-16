@@ -1,0 +1,65 @@
+html {
+    height: 100%;
+}
+
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color:#fafafa;
+    font-family: 'Roboto';
+    font-size: 16px;
+    color: #263238;
+}
+
+.body{
+    min-height: 100%;
+    margin: auto;
+    width: 85%
+}
+
+.collapsibleInformation{
+    margin-left: 5%;
+    display:inline-block;
+}
+
+.menu{
+    margin-bottom: 50px;
+}
+
+.userEmail{
+    margin-right: 4%;
+}
+
+.brand-logo{
+    font-family: 'Roboto Slab';
+}
+
+h4{
+    font-family: 'Roboto Slab';
+    color: #263238; 
+}
+
+h5, p{
+    font-family: 'Roboto';
+    color: #263238;
+}
+
+.decideFooter{
+    margin-top:50px;
+}
+
+.decideFooterContainer{
+    padding-bottom:20px;
+}
+
+.errorlist
+    {
+        color: red;
+    }
+    
+/* or if you want to change field border color then */
+.error input, .error select {
+border: 2px red solid;
+}
+

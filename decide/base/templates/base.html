@@ -1,0 +1,180 @@
+{% load i18n static %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+
+        <!-- Control de autenticación con Google -->
+        <meta name="google-site-verification" content="ewIBHJWCo3oagHnyHw73YqJdRYTH1GlWhPKjsDLCVVA" />
+
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--Import ajax and jquery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.js"></script>
+
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="{% static "decide/css/base.css"%}"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab" rel="stylesheet">
+        
+        <link type="text/css" rel="stylesheet" href="{% static "decide/css/materialize.css"%}"> 
+        <!--Import materialize.js-->
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta charset="utf-8" />
+        <title>{% block title %}Decide!{% endblock %}</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'decide/img/favicon.png'%}"/>
+        <style type="text/css"> 
+            .social-icon {
+                height: 30px;
+                margin-left: 15px;
+                margin-top: 16px;
+            }
+            .admin-icon {
+                height: 30px;
+                margin-top: 16px;
+            }
+            .logged-email {
+                margin-left: 10px;
+            }
+        </style>
+        {% block extrahead %}
+        {% endblock %}
+      
+        <!-- Initialize Materialize JS -->
+        <script type="text/javascript">
+            function initMaterialize(){
+                M.AutoInit();
+            } 
+      
+            $(document).ready(function(){
+              $('select').formSelect();
+            });
+        </script>
+        
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    </head>
+
+    <body onload="initMaterialize()">
+    
+        <script>
+                window.fbAsyncInit = function() {
+                    FB.init({
+                    appId      : '{your-app-id}',
+                    cookie     : true,
+                    xfbml      : true,
+                    version    : '{api-version}'
+                    });
+                    
+                    FB.AppEvents.logPageView();   
+                    
+                };
+                
+                (function(d, s, id){
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {return;}
+                    js = d.createElement(s); js.id = id;
+                    js.src = "https://connect.facebook.net/en_US/sdk.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+            </script>    
+
+        <nav class="menu" style="overflow: hidden !important;">
+                <div class="nav-wrapper blue-grey darken-2">
+                        {% if user.is_authenticated %}
+                            <div class="userEmail right">
+                                {% if request.session|get_value_from_dict:'google-oauth2_state' != None and request.session|get_value_from_dict:'_auth_user_id' != None %}
+                                    <img class="left social-icon"  src="{% static 'decide/img/google_icon.png'%}"/>
+                                {% elif request.session|get_value_from_dict:'github_state' != None and request.session|get_value_from_dict:'_auth_user_id' != None %}
+                                    <img class="left social-icon" src="{% static 'decide/img/github_icon.png'%}"/>
+                                {% elif request.session|get_value_from_dict:'facebook_state' != None and request.session|get_value_from_dict:'_auth_user_id' != None %}
+                                    <img class="left social-icon" src="{% static 'decide/img/Facebook.png'%}"/>
+                                {% else %}
+                                    <i class="material-icons left">account_circle</i>
+                                {% endif %}
+                                <span class="logged-email">{{ user.email }} | </span>
+                                <a class="right" href="{% url 'logout' %}"><i class="material-icons right">power_settings_new</i></a>
+                            </div>
+                        {% endif %}
+                        {% if user.is_authenticated == False %}
+                            <div class="userEmail right">
+                                <ul class="right hide-on-med-and-down">
+                                    <li><a href="/authentication/form-login?next={{request.path}}">{% trans "Log in"%}</a></li>
+                                    <li><a href="/authentication/signup/">{% trans "Sign up"%}</a> </li>
+                                    <li><a href="{% url 'social:begin' 'google-oauth2' %}"><img class="admin-icon center" src="{% static 'decide/img/google_icon.png'%}"/></a></li>
+                                    <li><a href="{% url 'social:begin' 'github' %}"><img class="admin-icon" src="{% static 'decide/img/github_icon.png'%}"/></a></li>
+                                    <li><a href="{% url 'social:begin' 'facebook' %}"><img class="admin-icon" src="{% static 'decide/img/Facebook.png'%}"/></a></li>
+                                </ul>    
+                            </div>
+                        {% endif %}
+                        <a href="/" class="brand-logo center">Ganímedes<i class="material-icons right">data_usage</i></a>
+                        <ul id="nav-mobile" class="left hide-on-med-and-down">
+                            {% block menu_options %}
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                                    <div class="col s12 language1">
+                                        <select class="browser-default" name="language" onchange="this.form.submit()">
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}  
+                                            {% for lang in LANGUAGES %}
+                                            <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %} selected disabled hidden {% endif %}>
+                                                {{ lang.1 }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </form>
+                            </li>
+                            <li><a href="/voting/openVotings/">{% trans 'Open votings' %}</a></li>
+                            <li><a href="/census/listCensus">{% trans 'Census' %}</a></li>
+                            <li><a href="/visualizer/list_ended/">{% trans 'Closed Votings' %}</a></li>
+
+                            {% endblock %}
+                        </ul>
+                        
+                </div>
+        </nav>
+    
+       
+        
+        <style>
+        .language {
+            width:115px;
+        }
+        .language1 {
+            margin-top:10px !important;
+        }
+        .language2 {
+            opacity:0.9 !important;
+            border-radius: 6px !important;
+        }
+        
+        </style>
+         
+            
+        <script type="text/javascript" src="{% static "decide/js/materialize.js"%}"></script>
+        
+        <div class="body">
+            {% block content %}
+            {% endblock %}
+
+            {% block extrabody %}
+
+            {% endblock %}
+        </div>
+        <div class="decideFooter">
+            <footer class="page-footer blue-grey darken-2">
+                    <div class="decideFooterContainer container">
+                        <span><a class="grey-text text-lighten-4" target="_blank" href="https://github.com/decide-ganimedes/decide-ganimedes">© 2018 Decide-Ganimedes</a> - AGPLv3.0</span>
+                    <a class="grey-text text-lighten-4 right" target="_blank" href="https://github.com/decide-ganimedes/decide-ganimedes/releases">vM3-2019</a>
+                    </div>
+                    
+            </footer> 
+        </div>  
+    </body>
+</html>

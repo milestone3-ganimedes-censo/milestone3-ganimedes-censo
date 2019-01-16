@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% load custom_tags %}s
+{% include 'admin/change_form.html' %}
+
+{% block content %}
+  
+ <div class="container">
+  <nav>
+    <div class="nav-wrapper row teal darken-3">
+      <div class="col s12">
+        <div class="col s12"><a href="/" class="breadcrumb">{% trans 'Home' %}</a>
+        <a href="{% url 'listCensus' %}" class="breadcrumb">{% trans 'Census'%}</a>
+            <a href="" class="breadcrumb">{% trans "Edit census" %}</a>
+      </div>
+      </div>
+    </div>
+  </nav>
+
+  <form action="{% url 'saveEditedCensus' %}" method="get">
+    <h4>{% trans 'Select the voting to assign to this census' %}</h4>
+    <div id="change-voting-id">
+
+      <select name="voting_id">
+      {% for voting in votings %}
+      <option value="{{ voting.id }}">{{ voting.name }}</option>
+      {% endfor %}
+      </select>
+    </div>
+
+    <h4>{% trans 'Select the user to assign to this census' %}</h4>
+    <div id="change-voter-id">
+
+      <select name="voter_id">
+      {% for user in users %}
+      <option value="{{ user.id }}">{{ user.id }} - {{ user.first_name }} {{ user.last_name }}</option>
+      {% endfor %}
+      </select>
+    </div>
+    <input type="hidden" name="id" value="{{census.id}}" />
+    <button class="btn waves-effect waves-light" type="submit">{% trans "Edit census" %}
+    <i class="material-icons right">send</i>
+    </button> 
+    <a class="btn waves-effect waves-light" href="{% url 'listCensus' %}" >{% trans "Back" %}</a>
+
+  </form>  
+</div>
+  {% endblock %}

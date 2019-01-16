@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load custom_tags %}
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet" href="{% static "decide/css/booth/booth.css"%}"/>
+    <style type="text/css">
+        h3 {text-align: center;}
+        .social-login {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <script>
+            window.location.replace("/");
+        </script>
+    {% endif %}
+
+    {% get_current_language as LANGUAGE_CODE %}
+
+    <h3>{% trans "Log in" %}</h3>
+    <div class="social-login">
+        <a href="{% url 'social:begin' 'google-oauth2' %}?next=/authentication/obtain_auth_token_rrss/?next={{request.GET.next}}"><img class="social-icon" src="{% static 'decide/img/google_icon.png'%}"/></a>
+        <a href="{% url 'social:begin' 'github' %}?next=/authentication/obtain_auth_token_rrss/?next={{request.GET.next}}"><img class="social-icon" src="{% static 'decide/img/github_icon.png'%}"/></a>
+        <a href="{% url 'social:begin' 'facebook' %}?next=/authentication/obtain_auth_token_rrss/?next={{request.GET.next}}"><img class="social-icon" src="{% static 'decide/img/Facebook.png'%}"/></a>
+    </div>
+    <div id="login" class="container">
+        <div class="row center-align">
+            <div class="row">
+                <div class="col m2"></div>
+                <div class="input-field col m8 s12">
+                    <input id="email" type="email" class="validate" name="email">
+                    <label for="email">{% trans "Email" %}</label>
+                </div>
+                <div class="col m2"></div>
+            </div>
+            <div class="row">
+                <div class="col m2"></div>
+                <div class="input-field col m8 s12">
+                  <input id="password" type="password" class="validate" name="password">
+                  <label for="password">{% trans "Password" %}</label>
+                </div>
+                <div class="col m2"></div>
+            </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light" style="background-color: #455a64 !important;" onClick="decideLogin()" type="submit" name="action">{% trans "Login" %}
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrabody %}
+    <script>
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function postData(url, data) {
+            var fdata = {
+                body: JSON.stringify(data),
+                headers: {
+                    'content-type': 'application/json',
+                },
+                method: 'POST',
+            };
+            return fetch(url, fdata)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return Promise.reject(response.statusText);
+                }
+            });
+        }
+
+        function decideLogin() {
+            
+            var data = {
+                    email: document.querySelector("#email").value,
+                    password: document.querySelector("#password").value,
+            };
+            
+            if(data["email"] == "" || data["password"] == "") {
+                alert("{% trans 'Enter an email and a password.' %}")
+            } else {
+                postData("{{auth_url}}" +  "/authentication/login/", data)
+                .then(data => {
+                    // document.cookie = 'decide='+'{{ request.session|get_value_from_dict:"auth-token" }}'+';';
+                    // token = data.token;
+                    // decideUser();
+                    var next = getParameterByName('next');
+                    window.location.replace(next);
+                })
+                .catch(error => {
+                    if(error == "Bad Request") {
+                        alert("{% trans 'Error: The credentials are not valid' %}");
+                        console.error(error);
+                    } else {
+                        alert("{% trans 'Error: ' %}" + error);
+                        console.error(error);
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}

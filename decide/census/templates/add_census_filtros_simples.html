@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% load custom_tags %}
+{% include 'admin/change_form.html' %}
+
+{% block content %}
+ <div class="container">
+  <nav>
+    <div class="nav-wrapper row teal darken-3">
+      <div class="col s12">
+        <div class="col s12"><a href="/" class="breadcrumb">{% trans 'Home' %}</a>
+        <a href="{% url 'listCensus' %}" class="breadcrumb">{% trans 'Census'%}</a>
+        <a href="" class="breadcrumb">{% trans "Create census" %}</a>
+      </div>
+      </div>
+    </div>
+  </nav>
+
+{% for message in messages %}
+
+    <div class="alert alert-success">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+
+        {{ message }}
+
+            </div>
+{% endfor %}
+  <br>
+  <br>
+  
+
+  <h5>{% trans "Choose one of the filters below to create the census." %}</h5>
+<div class="section">
+  <form action="{% url 'addAllInCity' %}" method="get">
+    <p>
+        <span><h4>{% trans 'Create census with users from this city' %}</h4></span>
+    </p>
+    <div id="numberinput1">
+    <label for="numberinput1">{% trans 'Choose a voting' %}</label>
+    <select name="voting_id">
+      {% for voting in votings %}
+      <option value="{{ voting.id }}">{{ voting.name }}</option>
+      {% endfor %}
+    </select>
+    
+  </div>
+    
+    <div id="city-choice">
+        <label for="city">{% trans 'City' %}</label>
+        <input type="text" name="city" required="required" placeholder="{% trans 'Ex: Sevilla' %}">
+    <br/>      
+    <br/>
+    <button class="btn waves-effect waves-light" type="submit" >{% trans 'Create census' %}
+    <i class="material-icons right">send</i>
+    </button>
+    <br>
+    </div>
+  </form>
+  <br/>
+
+</div>
+  <div class="divider"></div>
+  <br/>
+<div class="section">
+  <form action="{% url 'addAllBySex' %}" method="get">
+    <div id="numberinput2">
+    <p>
+        <span><h4>{% trans 'Create census with users of this sex' %}</h4></span>
+    </p> 
+    <label for="voting_id">{% trans 'Choose a voting' %}</label> 
+    <select name="voting_id">
+      {% for voting in votings %}
+      <option value="{{ voting.id }}">{{ voting.name }}</option>
+      {% endfor %}
+    </select>
+    
+  </div>
+    
+    <div id="sex-choice">
+    <label for="sex">{% trans 'Choose a sex' %}</label>  
+    <select name="sex">
+      <option value="M" selected>{% trans 'Male' %}</option>
+      <option value="W">{% trans 'Female' %}</option>
+      <option value="N">{% trans 'Non-binary' %}</option>
+    </select>
+    <br>
+    <button class="btn waves-effect waves-light" type="submit" >{% trans 'Create census' %}
+    <i class="material-icons right">send</i>
+    </button>
+    </div>
+  </form>
+  <br>
+
+</div>
+<div class="divider"></div>
+<br/>
+<div class="section">
+   <form action="{% url 'addAllByAge' %}" method="get">
+
+    <div id="numberinput4">
+    <p>
+        <span><h4>{% trans 'Create census with users in this age range' %}</h4></span>
+    </p>
+    <label for="numberinput4">{% trans 'Choose a voting' %}</label>
+    <select name="voting_id">
+      {% for voting in votings %}
+      <option value="{{ voting.id }}">{{ voting.name }}</option>
+      {% endfor %}
+    </select>
+    
+  </div>
+
+    <div id="age-choice">
+     <label for="younger">{% trans 'From this age' %}</label>
+    <input type="number" name="younger" id="younger" >
+    <br>
+    <label for="older">{% trans 'To this age' %}</label>
+    <input type="number" name="older" id="older" >
+    <br/>
+    <br/>
+    <button class="btn waves-effect waves-light" type="submit" >{% trans 'Create census' %}
+    <i class="material-icons right">send</i>
+    </button>
+    <br/>
+    </div>
+
+  </form>
+</div>
+<br/>
+<div class="divider"></div>
+<br/>
+
+<div class="section">
+  <form action="{% url 'addAllRegistered' %}" method="get">
+
+    <div id="numberinput3">
+    <p>
+        <span><h4>{% trans 'Create census with all existing users' %}</h4></span>
+    </p>
+    <label for="numberinput3">{% trans 'Choose a voting' %}</label>
+    <select name="voting_id">
+      {% for voting in votings %}
+      <option value="{{ voting.id }}">{{ voting.name }}</option>
+      {% endfor %}
+    </select>
+    <label for="numberinput3">{% trans 'Voting' %}</label>
+  </div>
+
+    <div id="all-users-choice">
+    
+    <br>
+    <button class="btn waves-effect waves-light" type="submit" >{% trans 'Create census' %}
+    <i class="material-icons right">send</i>
+    </button>
+    <br>
+    </div>
+
+  </form>
+  </div>
+  <br>
+  <br>
+  <a class="btn waves-effect waves-light" href="{% url 'listCensus' %}">{% trans 'Back' %}</a>
+</div>
+
+{% endblock %}

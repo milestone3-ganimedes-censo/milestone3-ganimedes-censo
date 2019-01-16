@@ -1,0 +1,17 @@
+Django==2.0.8
+pycryptodome==3.6.6
+djangorestframework==3.7.7
+django-cors-headers==2.1.0
+requests==2.20.0
+django-filter==1.1.0
+psycopg2==2.7.5
+django-rest-swagger==2.2.0
+Pillow==5.3.0
+xhtml2pdf==0.2.3
+django-heroku
+gunicorn
+psycopg2-binary==2.7.6.1
+python-gettext==4.0
+django-makemessages-xgettext==0.1.1
+social-auth-app-django
+django-nocaptcha-recaptcha

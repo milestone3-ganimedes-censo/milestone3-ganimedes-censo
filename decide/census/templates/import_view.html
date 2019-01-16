@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% load custom_tags %}
+{% include 'admin/change_list.html' %}
+{% load i18n admin_urls static admin_list %}
+
+{% block content %}
+ <div class="container">
+  <nav>
+    <div class="nav-wrapper row teal darken-3">
+      <div class="col s12">
+        <div class="col s12"><a href="/" class="breadcrumb">{% trans 'Home' %}</a>
+        <a href="{% url 'listCensus' %}" class="breadcrumb">{% trans 'Census'%}</a>
+        <a href="" class="breadcrumb">{% trans "Import census" %}</a>
+      </div>
+      </div>
+    </div>
+  </nav>
+
+    <div class="nav-wrapper">    
+      <form id="changelist-form" method="post"{% if cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %} novalidate>{% csrf_token %}
+      {% if cl.formset %}
+        <div id="searchbar">
+      {{ cl.formset.management_form }}
+      </div>
+      {% endif %}
+      </form>
+        </div>
+      </form>
+    </div>
+  
+{% for message in messages %}
+
+    <div class="alert alert-success">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+
+        {{ message }}
+
+            </div>
+{% endfor %}
+<br/>
+<div class="container">
+    <h5>{% trans 'Import CSV' %}</h5>
+    {% trans 'Choose the CSV file with the censuses to be imported into the system.'%}
+    <br/>
+    <form action="{% url 'importCSV' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="file-field input-field">
+      <div class="btn">
+        <span>{% trans 'File' %}</span>
+        <input type="file" name="file">
+      </div>
+      <br/>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+      <br/>
+      <p>{% trans 'Only CSV files' %}</p>
+      <button type="save" class="waves-effect waves-dark btn">{% trans 'Upload CSV' %}</button>
+    </form>
+    <br/><br/>
+
+ <a class="btn waves-effect waves-light" href="{% url 'listCensus' %}" >{% trans "Back" %}</a>
+ </div>
+</div>
+{% endblock %}

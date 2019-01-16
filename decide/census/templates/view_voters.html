@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load custom_tags %}
+{% block content %}
+<div class="container">
+  <nav>
+    <div class="nav-wrapper row teal darken-3">
+      <div class="col s12">
+        <a href="/" class="breadcrumb">{% trans 'Home' %}</a>
+        <a href="{% url 'listCensus' %}" class="breadcrumb">{% trans 'Census'%}</a>
+        <a href="" class="breadcrumb">{% trans 'View Voters' %}</a>
+      </div>
+    </div>
+  </nav>
+
+<h4>{% trans 'View Voters' %}</h4>
+<table class="centered responsive-table">
+  <table>
+        <thead>
+          <tr>
+              <th>{% trans 'First name' %}</th>
+              <th>{% trans 'Last name' %}</th>
+              <th>{% trans 'Sex' %}</th>
+              <th>{% trans 'City' %}</th>
+              <th>{% trans 'Date of birth' %}</th>
+          </tr>
+        </thead>
+  <tbody>        
+  {% for voter in users %}
+    <tr>
+        <td>{{voter.first_name}}</td>
+        <td>{{voter.last_name}}</td>
+        <td>{{voter.sex}}</td>
+        <td>{{voter.city}}</td>
+        <td>{{voter.birthdate}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+</table>
+</div>
+<div>
+<br>
+<br>
+<td><a href="{% url 'listCensus' %}" class="waves-effect waves-light btn">{% trans "Back" %}</a></td>
+</div>
+
+{% endblock %}

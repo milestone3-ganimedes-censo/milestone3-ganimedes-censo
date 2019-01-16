@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+    <script>
+        window.location.replace("/");
+    </script>
+    {% endif %}
+    
+    <h3>{% trans "Sign up a new user" %}</h3>
+    <a href="{% url 'social:begin' 'google-oauth2' %}"><img class="left social-icon" src="{% static 'decide/img/google_icon.png'%}"/></a>
+    <a href="{% url 'social:begin' 'github' %}"><img class="left social-icon" src="{% static 'decide/img/github_icon.png'%}"/></a>
+    <a href="{% url 'social:begin' 'facebook' %}"><img class="left social-icon" src="{% static 'decide/img/Facebook.png'%}"/></a>
+    <form id='formulario' method='post' action=''>
+        {% csrf_token %}
+        <table>{{formulario}}</table>
+        <br>
+        <button class="btn waves-effect waves-light teal" style="background-color: #455a64 !important; margin-bottom: 80px;" type="submit" name="action" >{% trans 'Submit' %}
+        </button>
+    </form>
+    
+{% endblock %}

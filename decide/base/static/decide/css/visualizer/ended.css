@@ -1,0 +1,33 @@
+#resultados-votacion{
+    text-align: center;
+}
+
+#resultados-votacion h5{
+    margin-top: 0%;
+}
+
+#resultados-votacion p{
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+#question-title{
+    text-align: left;
+    font-weight: bold;
+}
+
+#results{
+    text-align: left;
+}
+
+.white-text{
+    color:white;
+}
+
+hr{
+    border: 0;
+    clear:both;
+    display:block;
+    width:96%;
+    height:2px;
+}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% load custom_tags %}
+{% include 'admin/delete_confirmation.html' %}
+
+{% block content %}
+
+ <div class="container">
+  <nav>
+    <div class="nav-wrapper row teal darken-3">
+      <div class="col s12">
+        <div class="col s12"><a href="/" class="breadcrumb">{% trans 'Home' %}</a>
+        <a href="{% url 'listCensus' %}" class="breadcrumb">{% trans 'Census'%}</a>
+            <a href="" class="breadcrumb">{% trans "Delete census" %}</a>
+      </div>
+      </div>
+    </div>
+  </nav>
+
+
+<div id="delete-block">
+
+<h5><p>{% trans 'Are you sure you want to delete this census? All of the following related items will be deleted' %}</p></h5>
+<br>
+<br>
+<br>
+</div>
+<table class="centered responsive-table">
+<thead>
+          <tr>
+              <th>{% trans "ID" %}</th>
+              <th>{% trans "Voting ID" %}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>{{census.id}}</td>
+            <td>{{census.voting_id}}</td>
+          </tr>
+         
+        </tbody>
+
+</table>
+
+<br>
+
+<form action="{% url 'deleteSelectedCensus' %} " method="get">
+
+<div id="delete-confirmation">
+  <h5>{% trans "Be careful: this action cannot be undone!" %}</h5>
+  <br/>
+  <input type="hidden" name="id" value="{{census.id}}" />
+  <button class="btn waves-effect waves-light" type="submit">{% trans "Yes, I'm sure" %}
+    <i class="material-icons right">send</i>
+  </button>
+        
+  <a href="{% url 'listCensus' %}" class="waves-effect waves-light btn">{% trans "No, take me back" %}</a>
+</div> 
+</form>
+</div>
+{% endblock %}

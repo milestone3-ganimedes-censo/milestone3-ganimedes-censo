@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load custom_tags %}
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet" href="{% static 'decide/css/booth/booth.css'%}"/>
+{% endblock %}
+{% block content %}
+
+    {% if user.is_authenticated == False %}
+    <script>
+        window.location.replace("/authentication/form-login?next={{request.path}}");
+    </script>
+    {% endif %}
+
+    {% get_current_language as LANGUAGE_CODE %}
+    
+    <h3 class="center-align titulo">{{ voting.name }}</h3><br>
+    <p class="center-align flow-text descripcion">{{voting.desc}}</p>
+
+    {% if voting.start_date == None %}
+        <p class="center-align flow-text descripcion">{% trans 'The voting can not be accessed because it has not started.' %}</p>
+    {% elif voting.end_date != None %}
+        <p class="center-align flow-text descripcion">{% trans 'The voting can not be accessed because it has ended. You can access to the results in the following link: ' %} <a href="/visualizer/{{voting.id}}">{% trans 'Results' %}</a></p>
+    {% elif voting.questions|length == 0 %}
+        <p class="center-align flow-text descripcion">{% trans 'This voting does not contain any questions, so it can not be accessed yet. Try it again later.' %}</p>
+    {% else %}
+  
+    <div id="voting">
+        
+        {% for question in voting.questions %}
+            <div class="row pregunta">
+            <div class="col m1 l2"></div>
+            <div class="col s12 m10 l8">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="image-background" src="../../../static/images/fondo.jpg" />
+                        <a
+                        class="btn-floating halfway-fab waves-effect waves-light darkblue"
+                        onclick="dictarVoz({{question}})"
+                        ><i class="material-icons">record_voice_over</i></a>
+                    </div>
+                <div class="card-content">
+                    {% if question.help_text %}
+                    <div class="card-title">{{ question.desc }}
+                        <span class="tooltip">[?]
+                            <span class="tooltiptext {% if question.help_text|length > 150 %}grande{% else %}pequeno{% endif %}"><p class="flow-text help-text">{{ question.help_text }}</p></span>
+                        </span>
+                    </div> 
+                    {% else %}
+                    <span class="card-title">{{ question.desc }}</span>
+                    {% endif %}
+                    {% with index=forloop.counter %}
+	                    <form class="respuestas">
+	                        {% for opt in question.options %}
+	                        <p>
+	                            <label for="{{question.number}}{{opt.number}}">
+	                            <input id="{{question.number}}{{opt.number}}" type="radio" name="question{{index}}" value={{opt.number}} />
+	                            <span>{{opt.option}}</span>
+	                            </label>
+	                        </p>
+	                        {% endfor %}
+	                    </form>
+                    {% endwith %}
+                </div>
+                <div class="card-action">
+                    <a class="blue-grey-text darken-5" href="#" onclick="startDictation({{question}})">{% trans "Answer with voice" %}</a>
+                </div>
+            </div>
+          </div>
+          <div class="col m1 l2"></div>
+        </div>
+        {% endfor %}
+        
+        <div id="btnSend" class="row center-align">
+            <button class="btn waves-effect waves-light" type="submit" name="action" onclick="decideSend()">{% trans "Send vote" %}
+                    <i class="material-icons right">send</i>
+            </button> 
+        </div>
+        
+    </div>
+      
+    <div id="myModal" class="modal1">
+        <div class="modal-content1">
+          <span id="close1" class="close">&times;</span>
+            <h4>{% trans "Speech Synthesis not supported" %}</h4>
+            <p>{% trans "Your browser does not support speech synthesis." %}</p>
+            <p>{% trans "We recommend you use Google Chrome." %}</p>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+    //Script para modal
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    </script>
+    <script>
+        // Script para dictar preguntas y respuestas
+        function dictarVoz(array) {
+            respuestas = ""
+            primeraVez = true
+            if (array.options.length == 0) {
+                texto = 'La pregunta es: ' + array.desc + '.' + "y no hay respuestas disponibles."
+            } else {
+                for(i = 0; i < array.options.length ; i++) {
+                    if (primeraVez) {
+                        respuestas = array.options[i].option
+                        primeraVez = false
+                    } else
+                        respuestas = respuestas + ', ' + array.options[i].option
+                }
+                respuestas += '.'
+                texto = 'La pregunta es: ' + array.desc + '.' +  ' Las respuestas son las siguientes: ' + respuestas
+            }
+            sintentizarVoz(texto)
+        }
+        function sintentizarVoz(texto) {
+            if ("speechSynthesis" in window) {
+                var msg = new SpeechSynthesisUtterance();
+                var voices = window.speechSynthesis.getVoices();
+                msg.voice = voices[0]; /* por defecto (spain opcion 0)*/
+                msg.rate = 1;
+                msg.pitch = 1;
+                msg.text = texto;
+            
+                speechSynthesis.speak(msg);
+            } else {
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+            }
+        }
+    </script>
+    <script>
+        //Script para responder con voz
+        function startDictation(question) {
+            if (window.hasOwnProperty("webkitSpeechRecognition")) {
+            var recognition = new webkitSpeechRecognition();
+        
+            recognition.continuous = false;
+            recognition.interimResults = false;
+        
+            recognition.lang = "es-ES";
+            recognition.start();
+        
+            recognition.onresult = function(e) {
+                console.log(e.results[0][0].transcript);
+                responderPreguntaPorVoz(question, e.results[0][0].transcript)
+                recognition.stop();
+            };
+        
+            recognition.onerror = function(e) {
+                recognition.stop();
+            };
+            } else {
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+            }
+        }
+        function responderPreguntaPorVoz(question, respuestaVoz) {
+            //tratamiento del texto
+            respuesta = normalizarTexto(respuestaVoz.toLowerCase())
+            var i = 0
+            for(i = 0; i < question.options.length; i++) {
+                opcion = normalizarTexto(question.options[i].option.toLowerCase())
+                if (comprobarRespuesta(opcion, respuesta)) {
+                    //Si es la respuesta cogemos su id y eliminamos los espacios, luego marcamos el checkbox
+                    id = "#" + question.number + question.options[i].number
+                    text = id.replace(/ /g,'')
+                    $(text).prop("checked", true)
+                }
+            }
+        }
+        //Funcion que devuelve true si contiene el 65% de la respuesta
+        function comprobarRespuesta(o, r) {
+            res = false
+            opcion = o.replace('.','').replace(',', '').replace('¿', '').replace('?', '')
+            respuesta = r.replace('.','').replace(',', '').replace('¿', '').replace('?', '')
+            arrayOpcion = opcion.split(' ')
+            arrayRespuesta = respuesta.split(' ')
+            cont = 0
+            for(i = 0; i < arrayOpcion.length; i++){
+                for(j = 0; j < arrayRespuesta.length; j++){
+                    if(arrayOpcion[i].indexOf(arrayRespuesta[j]) != -1){
+                        cont++
+                        break;
+                    }
+                }
+            }
+            porcentaje =  cont / arrayOpcion.length
+            console.log(porcentaje)
+            if (porcentaje > 0.70) {
+                res = true
+            }
+            return res
+        }
+        function normalizarTexto(texto) {
+            return texto.normalize('NFD').replace(/([aeio])\u0301|(u)[\u0301\u0308]/gi,"$1$2").normalize();
+        }
+        </script>
+
+    {% endif %}
+{% endblock %}
+
+{% block extrabody %}
+    <!-- needed to generate big random -->
+    <script src="{% static "crypto/sjcl.js" %}"></script>
+
+    <!-- Big integer -->
+    <script src="{% static "crypto/jsbn.js" %}"></script>
+    <script src="{% static "crypto/jsbn2.js" %}"></script>
+    <script src="{% static "crypto/bigint.js" %}"></script>
+
+    <!-- ElGamal encrypt -->
+    <script src="{% static "crypto/elgamal.js" %}"></script>
+    
+    <script>
+        var sessionToken = null;
+        "{% if request.session|get_value_from_dict:'auth-token' %}"
+            sessionToken = "{{ request.session|get_value_from_dict:'auth-token' }}"
+        "{% endif %}"
+
+        ElGamal.BITS = {{ KEYBITS }};
+        var bigpk = {
+            p: BigInt.fromJSONObject("{{voting.pub_key.p}}"),
+            g: BigInt.fromJSONObject("{{voting.pub_key.g}}"),
+            y: BigInt.fromJSONObject("{{voting.pub_key.y}}"),
+        };
+        var token = null;
+        var user = null;
+        function postData(url, data) {
+          // Default options are marked with *
+          var fdata = {
+            body: JSON.stringify(data),
+            headers: {
+              'content-type': 'application/json',
+            },
+            method: 'POST',
+          };
+
+            if (sessionToken) {
+                fdata.headers['Authorization'] = 'Token ' + sessionToken;
+            }
+          return fetch(url, fdata)
+          .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                return Promise.reject(response.statusText);
+            }
+          });
+        }
+        function decideEncrypt(text) {
+            var bigmsg = BigInt.fromJSONObject(text);
+            var cipher = ElGamal.encrypt(bigpk, bigmsg);
+            return cipher;
+        }
+		function decideSend() {
+        	
+        	// Number of questions of the voting
+        	var votingQuestions = parseInt("{{voting.questions|length}}");
+        	
+        	// Empty array for the options selected by the user
+        	var selectedOptions = []
+        	
+        	// Fill the array with the selected options
+        	for (i = 1; i < (votingQuestions + 1); i++) {
+        		var query = "input[name=question" + i + "]:checked";
+        		var option = document.querySelector(query);
+        		if(option !== null) {
+        			selectedOptions.push(option.value);
+        		}
+        	}
+        	
+        	/*
+        	If the user has selected one option per question -> OK
+        	Otherwise -> SHOW AN ALERT
+        	*/
+        	
+        	if(selectedOptions.length == votingQuestions) {
+        		
+        		// Empty array for the encrypted votes
+        		var encryptedVotes = [];
+        		
+        		// Loop over the selected options and cipher them
+        		for (i = 0; i < selectedOptions.length; i++) {
+        			var encryptedVote = decideEncrypt(selectedOptions[i]);
+        			encryptedVotes.push({a: encryptedVote.alpha.toString(), b: encryptedVote.beta.toString()});
+        		}
+        		
+        		// Generate the data
+                var data = {
+                	votes: encryptedVotes,
+               	 	voting: "{{voting.id}}",
+                	voter: "{{ request.session|get_value_from_dict:'_auth_user_id' }}",
+                	token: sessionToken,
+            	}
+        		
+        		// Post the generated data
+        		postData("{{store_url}}" + "/store/", data)
+                  .then(data => {
+                	  alert("{% trans 'Congratulations. Your vote has been sent' %}")
+                  })
+                  .catch(error => {
+                	  alert("{% trans 'Error: ' %}" + error);
+                	  console.error(error);
+                  });
+        		
+        	} else {
+        		alert("{% trans 'You must select an option for each question.' %}")
+        	}
+        	
+        }
+    </script>
+</body>
+{% endblock %}

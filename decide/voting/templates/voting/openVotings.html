@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% load custom_tags %}
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet" href="{% static 'decide/css/voting/voting.css'%}"/>
+{% endblock %}
+{% block content %}
+
+	<h3 class="center-align titulo">{% trans 'Open votings' %}</h3><br>
+	
+	{% if open_votings %}
+	
+		<table class="table table-striped table-bordered">
+    		<thead>
+		    	<tr>
+		    		<th>{% trans 'Name' %}</th>
+		    		<th>{% trans 'Description' %}</th>
+		    		<th>{% trans 'Booth' %}</th>
+		    		<th>{% trans 'Stats' %}</th>
+		    	</tr>
+		    </thead>
+		    <tbody>
+		    	{% for open_voting in open_votings %}
+		    		<tr>
+		    			<td>{{open_voting.name}}</td>
+		    			<td>
+		    				{% if open_voting.desc %}
+		    					{{open_voting.desc}}
+		    				{% else %}
+		    					{% trans 'Not provided.' %}
+		    				{% endif %}
+		    			</td>
+		    			<td><a href="/booth/{{open_voting.id}}">{% trans 'Access to the booth' %}</a></td>
+		    			<td><a href="/visualizer/{{open_voting.id}}">{% trans 'See the stats' %}</a></td>
+		    		</tr>
+		    	{% endfor %}
+	    	</tbody>
+		</table>
+		
+	{% else %}
+    
+    	<p class="center-align flow-text mensajes">{% trans 'There are no open votings in the system.' %}</p>
+    	
+    {% endif %}
+    
+{% endblock %}

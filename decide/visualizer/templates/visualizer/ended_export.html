@@ -1,0 +1,67 @@
+{% load i18n static %}
+{% load visualizertags %}
+
+{% block content %}
+
+    <h4>{{ voting.name }}</h4>
+    <h5>{% trans "Results: " %}</h5>
+
+    {% if voting.postproc.type == 1 or voting.postproc.type == 2 %}
+
+        <ul>
+            {% for question in voting.questions %}
+                <p>{{question.number}} - {{question.desc}}</p>
+                {% with voting.postproc.questions|get_value:question.number as values %}
+                    {% for value in values.options %}
+                        <li><p>{{value.option}} - {% trans "Total:" %} ({{value.postproc}}) - {% trans "Number of votes:" %} ({{value.votes}})</p></li>
+                    {% endfor %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+
+    {% elif voting.postproc.type == 3 %}
+
+        <ul>
+            {% for question in voting.questions %}
+                <p>{{ question.number }} - {{ question.desc }}</p>
+                {% with voting.postproc.questions|get_value:question.number as values %}
+                    {% for value in values.options %}
+                        {% if value.gender == False %}
+                            <li><p>({% trans "Woman" %}) {{ value.option }} - {% trans "Number of votes:" %} ({{ value.votes }})</p></li>
+                        {% else %}
+                            <li><p>({% trans "Man" %}) {{ value.option }} - {% trans "Number of votes:" %} ({{ value.votes }})</p></li>
+                        {% endif %}
+                    {% endfor %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+
+    {% elif voting.postproc.type == 4 %}
+
+        <ul>
+            {% for question in voting.questions %}
+                <p>{{ question.number }} - {{ question.desc }}</p>
+                {% with voting.postproc.questions|get_value:question.number as values %}
+                    {% for value in values.options %}
+                        <li><p>{% trans "Team" %} {{value.team}}: {{ value.option }} - {% trans "Number of votes:" %} ({{ value.votes }})</p></li>
+                    {% endfor %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+
+    {% else %}
+
+        <ul>
+            {% for question in voting.questions %}
+                <p>{{ question.number }} - {{ question.desc }}</p>
+                {% with voting.postproc.questions|get_value:question.number as values %}
+                    {% for value in values.options %}
+                        <li><p>{{ value.option }} - {% trans "Number of votes:" %} ({{ value.postproc }})</p></li>
+                    {% endfor %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+{% endblock %}
