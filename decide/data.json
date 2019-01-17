@@ -188,7 +188,7 @@
   "pk": 5,
   "fields": {
     "name": "localhost",
-    "url": "http://https://milestone3-ganimedes-censo.herokuapp.com/",
+    "url": "https://milestone3-ganimedes-censo.herokuapp.com/",
     "me": false
   }
 },
